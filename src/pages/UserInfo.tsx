@@ -55,7 +55,7 @@ const UserInfo = () => {
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="name"
-                      placeholder="John Doe"
+                      placeholder="xyz"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="pl-10 h-12 rounded-xl"
@@ -69,7 +69,7 @@ const UserInfo = () => {
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                     <Input
                       id="city"
-                      placeholder="New York"
+                      placeholder="karachi"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       className="pl-10 h-12 rounded-xl"
@@ -84,7 +84,7 @@ const UserInfo = () => {
                     <Input
                       id="phone"
                       type="tel"
-                      placeholder="+1 (555) 123-4567"
+                      placeholder="+92 123-4567890"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="pl-10 h-12 rounded-xl"

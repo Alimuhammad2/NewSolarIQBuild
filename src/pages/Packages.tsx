@@ -9,7 +9,7 @@ const packages = [
   {
     id: 'basic',
     name: 'Basic',
-    price: 2500,
+    price: 250000,
     description: 'Perfect for small households',
     capacity: '3 kW',
     panels: '8 Panels',
@@ -26,7 +26,7 @@ const packages = [
   {
     id: 'standard',
     name: 'Standard',
-    price: 4500,
+    price: 450000,
     description: 'Ideal for medium-sized homes',
     capacity: '5 kW',
     panels: '12 Panels',
@@ -44,7 +44,7 @@ const packages = [
   {
     id: 'premium',
     name: 'Premium',
-    price: 8000,
+    price: 750000,
     description: 'Complete solution for large homes',
     capacity: '10 kW',
     panels: '24 Panels',
@@ -121,7 +121,7 @@ const Packages = () => {
                 
                 <CardContent className="text-center">
                   <div className="mb-6">
-                    <span className="text-4xl font-bold text-foreground">${pkg.price.toLocaleString()}</span>
+                    <span className="text-4xl font-bold text-foreground">Rs{pkg.price.toLocaleString()}</span>
                     <span className="text-muted-foreground">/system</span>
                   </div>
                   

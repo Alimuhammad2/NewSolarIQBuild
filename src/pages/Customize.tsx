@@ -7,22 +7,22 @@ import Header from '@/components/Header';
 import { useSolarStore, PanelOption, InverterOption } from '@/store/solarStore';
 
 const panelOptions: PanelOption[] = [
-  { id: 'p1', name: 'Standard Mono', watts: 400, price: 150, efficiency: '20%' },
-  { id: 'p2', name: 'High-Efficiency', watts: 450, price: 200, efficiency: '22%' },
-  { id: 'p3', name: 'Premium Bifacial', watts: 500, price: 280, efficiency: '24%' },
+  { id: 'p1', name: 'Standard Mono', watts: 400, price: 14000, efficiency: '20%' },
+  { id: 'p2', name: 'High-Efficiency', watts: 450, price: 15500, efficiency: '22%' },
+  { id: 'p3', name: 'Premium Bifacial', watts: 500, price: 19600, efficiency: '24%' },
 ];
 
 const inverterOptions: InverterOption[] = [
-  { id: 'i1', name: 'Basic Grid-Tie', capacity: '5 kW', price: 800, type: 'On-Grid' },
-  { id: 'i2', name: 'Hybrid Inverter', capacity: '5 kW', price: 1200, type: 'Hybrid' },
-  { id: 'i3', name: 'Premium Hybrid', capacity: '10 kW', price: 2000, type: 'Hybrid+' },
+  { id: 'i1', name: 'Basic Grid-Tie', capacity: '5 kW', price: 175000, type: 'On-Grid' },
+  { id: 'i2', name: 'Hybrid Inverter', capacity: '5 kW', price: 250000, type: 'Hybrid' },
+  { id: 'i3', name: 'Premium Hybrid', capacity: '10 kW', price: 440000, type: 'Hybrid+' },
 ];
 
 const Customize = () => {
   const { selectedPackage, selectedPanel, selectedInverter, setSelectedPanel, setSelectedInverter } = useSolarStore();
   const [panelCount, setPanelCount] = useState(12);
 
-  const basePrice = selectedPackage === 'basic' ? 2500 : selectedPackage === 'standard' ? 4500 : 8000;
+  const basePrice = selectedPackage === 'basic' ? 250000 : selectedPackage === 'standard' ? 450000 : 750000;
 
   const totalPrice = useMemo(() => {
     let price = basePrice;
@@ -81,7 +81,7 @@ const Customize = () => {
                             <p className="text-sm text-muted-foreground">{panel.watts}W • {panel.efficiency} efficiency</p>
                           </div>
                         </div>
-                        <span className="font-bold text-foreground">${panel.price}/panel</span>
+                        <span className="font-bold text-foreground">Rs{panel.price}/panel</span>
                       </div>
                     </div>
                   ))}
@@ -116,7 +116,7 @@ const Customize = () => {
                             <p className="text-sm text-muted-foreground">{inverter.capacity} • {inverter.type}</p>
                           </div>
                         </div>
-                        <span className="font-bold text-foreground">${inverter.price}</span>
+                        <span className="font-bold text-foreground">Rs{inverter.price}</span>
                       </div>
                     </div>
                   ))}
@@ -157,34 +157,34 @@ const Customize = () => {
                   <div className="space-y-4">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">Base Package ({selectedPackage || 'Standard'})</span>
-                      <span className="text-foreground">${basePrice.toLocaleString()}</span>
+                      <span className="text-foreground">Rs{basePrice.toLocaleString()}</span>
                     </div>
                     
                     {selectedPanel && (
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">Panel Upgrade</span>
-                        <span className="text-foreground">+${((selectedPanel.price - 150) * panelCount).toLocaleString()}</span>
+                        <span className="text-foreground">+Rs{((selectedPanel.price - 150) * panelCount).toLocaleString()}</span>
                       </div>
                     )}
                     
                     {selectedInverter && (
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">Inverter Upgrade</span>
-                        <span className="text-foreground">+${(selectedInverter.price - 800).toLocaleString()}</span>
+                        <span className="text-foreground">+Rs{(selectedInverter.price - 800).toLocaleString()}</span>
                       </div>
                     )}
                     
                     <div className="border-t border-border pt-4">
                       <div className="flex justify-between">
                         <span className="font-semibold text-foreground">Total Price</span>
-                        <span className="text-2xl font-bold text-gradient">${totalPrice.toLocaleString()}</span>
+                        <span className="text-2xl font-bold text-gradient">Rs{totalPrice.toLocaleString()}</span>
                       </div>
                     </div>
 
                     <div className="pt-4">
                       <div className="p-3 rounded-lg bg-primary/10 border border-primary/20">
                         <p className="text-sm text-foreground font-medium">Estimated Monthly Savings</p>
-                        <p className="text-xl font-bold text-primary">${Math.round(totalPrice * 0.02)}/month</p>
+                        <p className="text-xl font-bold text-primary">Rs{Math.round(totalPrice * 0.02)}/month</p>
                       </div>
                     </div>
                   </div>
