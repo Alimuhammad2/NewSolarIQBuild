@@ -25,13 +25,27 @@ export interface InverterOption {
 }
 
 export interface Installer {
+  _id?: string;
   id: string;
   name: string;
+  company?: string;
   location: string;
   rating: number;
-  reviews: number;
-  verified: boolean;
-  avatar: string;
+  views?: number;
+  reviews?: number; // fallback compatibility
+  completedProjects?: number;
+  isVerified?: boolean;
+  verified?: boolean; // fallback compatibility
+  avatar?: string;
+}
+
+export interface ChosenSpecs {
+  recommendedPackage: string;
+  systemSizeKW: number;
+  panelQty: number;
+  panelType: string;
+  batteryQty: number;
+  estimatedPricePKR: number;
 }
 
 interface SolarState {
@@ -44,13 +58,20 @@ interface SolarState {
     name: string;
     city: string;
     phone: string;
+    email: string;
+    address: string;
   };
+  chosenSpecs: ChosenSpecs | null;
+  savedQuoteId: string | null;
+
   updateDeviceQuantity: (id: string, quantity: number) => void;
   setSelectedPackage: (pkg: 'basic' | 'standard' | 'premium') => void;
-  setSelectedPanel: (panel: PanelOption) => void;
-  setSelectedInverter: (inverter: InverterOption) => void;
-  setSelectedInstaller: (installer: Installer) => void;
-  setUserInfo: (info: { name: string; city: string; phone: string }) => void;
+  setSelectedPanel: (panel: PanelOption | null) => void;
+  setSelectedInverter: (inverter: InverterOption | null) => void;
+  setSelectedInstaller: (installer: Installer | null) => void;
+  setUserInfo: (info: { name: string; city: string; phone: string; email: string; address: string }) => void;
+  setChosenSpecs: (specs: ChosenSpecs | null) => void;
+  setSavedQuoteId: (id: string | null) => void;
   getTotalLoad: () => number;
 }
 
@@ -71,7 +92,9 @@ export const useSolarStore = create<SolarState>((set, get) => ({
   selectedPanel: null,
   selectedInverter: null,
   selectedInstaller: null,
-  userInfo: { name: '', city: '', phone: '' },
+  userInfo: { name: '', city: '', phone: '', email: '', address: '' },
+  chosenSpecs: null,
+  savedQuoteId: null,
 
   updateDeviceQuantity: (id, quantity) =>
     set((state) => ({
@@ -85,6 +108,8 @@ export const useSolarStore = create<SolarState>((set, get) => ({
   setSelectedInverter: (inverter) => set({ selectedInverter: inverter }),
   setSelectedInstaller: (installer) => set({ selectedInstaller: installer }),
   setUserInfo: (info) => set({ userInfo: info }),
+  setChosenSpecs: (specs) => set({ chosenSpecs: specs }),
+  setSavedQuoteId: (id) => set({ savedQuoteId: id }),
 
   getTotalLoad: () =>
     get().devices.reduce((total, device) => total + device.watts * device.quantity, 0),

@@ -134,10 +134,8 @@
 // export default LoadCalculator;
 
 
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { Minus, Plus, ArrowRight, Lightbulb, Fan, Snowflake, Tv, Laptop, Droplets, Cpu } from 'lucide-react';
+import { Minus, Plus, ArrowRight, Lightbulb, Fan, Snowflake, Tv, Laptop, Droplets } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Header from '@/components/Header';
@@ -158,40 +156,12 @@ const LoadCalculator = () => {
   const { devices, updateDeviceQuantity, getTotalLoad } = useSolarStore();
   const totalLoad = getTotalLoad();
 
-  // Nayi States Backend Response Handle karne ke liye
-  const [calculationResult, setCalculationResult] = useState<any>(null);
-  const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState('');
-
-  // Monthly units calculation logic jo pehle se components mein thi
+  // Monthly units calculation logic
   const monthlyUnitsCalculated = Math.round((totalLoad * 8) / 1000 * 30);
-  const peakLoadKW = parseFloat((totalLoad / 1000).toFixed(2));
 
   const getIcon = (iconName: string) => {
     const Icon = iconMap[iconName] || Lightbulb;
     return Icon;
-  };
-
-  // Backend API ko Call karne ka function
-  const handleBackendCalculation = async () => {
-    if (totalLoad === 0) return;
-    setLoading(true);
-    setApiError('');
-    setCalculationResult(null);
-
-    try {
-      const response = await axios.post('http://localhost:5000/api/calculator/calculate', {
-        monthlyUnits: monthlyUnitsCalculated,
-        peakLoad: peakLoadKW
-      });
-
-      // Backend ka results block state mein save kar liya
-      setCalculationResult(response.data.results);
-    } catch (err: any) {
-      setApiError(err.response?.data?.message || 'Backend se connect nahi ho saka.');
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
@@ -278,58 +248,8 @@ const LoadCalculator = () => {
                   <p className="text-xl font-semibold text-primary">{monthlyUnitsCalculated} kWh</p>
                 </div>
               </div>
-
-              {/* Action Button for Backend API */}
-              <div className="mt-6 pt-4 border-t border-muted">
-                <Button 
-                  onClick={handleBackendCalculation} 
-                  disabled={totalLoad === 0 || loading}
-                  className="w-full solar-gradient text-primary-foreground font-semibold"
-                >
-                  {loading ? 'Calculating on Backend...' : 'Fetch Solar IQ Recommendations'}
-                  <Cpu className="ml-2 w-4 h-4" />
-                </Button>
-              </div>
             </CardContent>
           </Card>
-
-          {/* Error Message Box */}
-          {apiError && (
-            <Card className="mb-8 border-destructive/50 bg-destructive/5">
-              <CardContent className="p-4 text-center text-destructive">
-                {apiError}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Backend Result Display Cards */}
-          {calculationResult && (
-            <Card className="mb-8 border-green-500/30 bg-green-500/5 transition-all duration-500 animate-in fade-in">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-bold text-foreground mb-4 text-center border-b pb-2">
-                  🧠 SolarIQ AI Recommendations
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="p-3 bg-background/50 rounded-lg border">
-                    <p className="text-sm text-muted-foreground">Recommended System Size</p>
-                    <p className="text-2xl font-bold text-primary">{calculationResult.recommendedSystemSizeKW} KW</p>
-                  </div>
-                  <div className="p-3 bg-background/50 rounded-lg border">
-                    <p className="text-sm text-muted-foreground">Required Panels Count</p>
-                    <p className="text-2xl font-bold text-primary">
-                      {calculationResult.requiredPanelsCount} Panels <span className="text-sm text-muted-foreground">({calculationResult.panelWattageUsed})</span>
-                    </p>
-                  </div>
-                  <div className="p-3 bg-background/50 rounded-lg border sm:col-span-2">
-                    <p className="text-sm text-muted-foreground">Estimated Daily Generation</p>
-                    <p className="text-xl font-bold text-green-600 dark:text-green-400">
-                      {calculationResult.estimatedDailyGenerationKWH} kWh / Day
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
 
           {/* Navigation */}
           <div className="flex justify-between">
