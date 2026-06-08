@@ -203,7 +203,7 @@ const Signup = () => {
     
     try {
       // Dummy validation simulation ki jagah real backend API hit ki
-      const response = await axios.post('http://localhost:5000/api/auth/signup', {
+      const response = await axios.post('https://localhost:5000/api/auth/signup', {
         name,
         email,
         password // Yeh bhi string format mein jayega

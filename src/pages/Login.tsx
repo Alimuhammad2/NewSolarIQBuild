@@ -162,7 +162,7 @@ const Login = () => {
     
     try {
       // Backend Login endpoint hit kiya
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post('https://localhost:5000/api/auth/login', {
         email,
         password 
       });
